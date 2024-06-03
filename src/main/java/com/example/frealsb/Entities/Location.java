@@ -23,17 +23,17 @@ public class Location {
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private java.sql.Date createdAt;
+    private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private java.sql.Date updatedAt;
+    private Date updatedAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private java.sql.Date deletedAt;
+    private Date deletedAt;
     // -- End timestamp --
     
     private String city;

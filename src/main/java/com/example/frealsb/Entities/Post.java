@@ -2,14 +2,16 @@ package com.example.frealsb.Entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,13 +28,13 @@ public class Post {
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private java.sql.Date createdAt;
+    private Date createdAt;
 
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private java.sql.Date updatedAt;
+    private Date updatedAt;
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -41,17 +43,40 @@ public class Post {
 
     @Min(0)
     private int fav = 0;
-    @NotNull
+
+    @Column(nullable = true)
     private String title;
-    @NotNull
-    private String description;
-    @NotNull
+
+    @Column(nullable = true)
     private String image;
-    private String tags;
-    @NotNull
-    private String userId;
-    private String eventId;
-    private String foodId;
-    private String locationId;
+
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "posts_tags",
+            joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    @OrderBy("name ASC")
+    private Collection<Tag> tags = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @org.hibernate.annotations.LazyCollection(org.hibernate.annotations.LazyCollectionOption.EXTRA)
+    @OrderBy("createdAt ASC")
+    private List<Comment> comments = new ArrayList<>();
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne()
+    @JoinColumn(name = "location_id")
+    private Location location;
+
+    @ManyToOne()
+    @JoinColumn(name = "event_id")
+    private Event event;
+
+    @ManyToOne()
+    @JoinColumn(name = "food_id")
+    private Food food;
+
     private String video;
 }

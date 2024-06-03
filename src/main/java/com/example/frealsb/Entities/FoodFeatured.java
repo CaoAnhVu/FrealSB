@@ -1,6 +1,6 @@
 package com.example.frealsb.Entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
