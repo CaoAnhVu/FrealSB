@@ -6,6 +6,17 @@
 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
 
+## Table of Contents
+
+- [Freal](#freal)
+  - [Authors](#authors)
+  - [Features](#features)
+  - [Installation](#installation)
+    - [Clone the repository](#clone-the-repository)
+    - [Configure Application Properties](#configure-application-properties)
+  - [Build and Run the Application](#build-and-run-the-application)
+  - [Acknowledgements](#acknowledgements)
+  - [License](#license)
 
 # Freal
 
