@@ -5,6 +5,9 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 @Getter
@@ -40,6 +43,14 @@ public class Blog {
     private String description;
     private String images;
     private String location;
-    private String tags;
-    private String userId;
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "blogs_tags",
+            joinColumns = @JoinColumn(name = "blog_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    @OrderBy("name ASC")
+    private Collection<Tag> tags = new ArrayList<>();
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
 }

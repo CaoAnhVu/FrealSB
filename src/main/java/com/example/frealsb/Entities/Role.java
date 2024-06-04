@@ -1,10 +1,10 @@
 package com.example.frealsb.Entities;
 
+import com.example.frealsb.Enums.EnumRole;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,8 +18,9 @@ public class Role {
     private String id;
 
     @Column(unique = true, nullable = false, length = 50)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private EnumRole roleName;
 
-    @ManyToMany(mappedBy = "roles")
-    private Collection<User> users = new ArrayList<>();;
+    @OneToMany(mappedBy = "role")
+    private List<User> users;
 }
