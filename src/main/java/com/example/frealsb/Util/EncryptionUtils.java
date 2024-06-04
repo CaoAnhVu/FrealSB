@@ -1,5 +1,8 @@
 package com.example.frealsb.Util;
 
+import com.example.frealsb.Entities.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -13,24 +16,11 @@ public class EncryptionUtils {
      * @param input the string to encrypt
      * @return the encrypted string
      */
-    public static String encryptMD5(String input) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] messageDigest = md.digest(input.getBytes());
-            StringBuilder hexString = new StringBuilder();
-            for (byte b : messageDigest) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public static String PasswordEncoder(String input) {
+        return new BCryptPasswordEncoder().encode(input);
     }
 
-    // Add more encryption utility methods as needed
+    public static boolean PasswordMatch(String match, User user){
+        return new BCryptPasswordEncoder().matches(match, user.getPassword());
+    }
 }

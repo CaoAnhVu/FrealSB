@@ -21,11 +21,6 @@ import java.util.Date;
 @Entity
 public class User extends JpaEntities {
 
-    public interface CreateValidationGroup {}
-    public interface ChangeEmailValidationGroup {}
-    public interface ChangePasswordValidationGroup {}
-    public interface ProfileInfoValidationGroup {}
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -37,12 +32,13 @@ public class User extends JpaEntities {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
+    @Column(nullable = true)
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deletedAt;
@@ -58,18 +54,16 @@ public class User extends JpaEntities {
 
     @Column(nullable = false, length = 80)
     @Size.List({
-            @Size(min = 6, message = "Password too short", groups = {CreateValidationGroup.class, ChangePasswordValidationGroup.class}),
-            @Size(max = 80, message = "Password too long", groups = {CreateValidationGroup.class, ChangePasswordValidationGroup.class})
+            @Size(min = 8, message = "Password too short"),
+            @Size(max = 80, message = "Password too long")
     })
-    @NotBlank(groups = {CreateValidationGroup.class, ChangePasswordValidationGroup.class})
     private String password;
 
     @Column(unique = true, nullable = false, length = 50)
-    @Email(groups = {CreateValidationGroup.class, ChangeEmailValidationGroup.class})
-    @NotBlank(groups = {CreateValidationGroup.class, ChangeEmailValidationGroup.class})
+    @Email()
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String phone;
 
     @Column(nullable = true)
@@ -82,7 +76,7 @@ public class User extends JpaEntities {
     private String location;
 
     @Column(nullable = true, length = 1000)
-    @Size(max = 1000, groups = {ProfileInfoValidationGroup.class})
+    @Size(max = 1000)
     private String bio;
 
     @ManyToOne

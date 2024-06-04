@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form th:action="'/register'" th:object="${registerUser}" method="post">
+  <table>
+    <tr>
+      <td>email: </td>
+      <td><input th:field="*{email}" type="text"> </td>
+    </tr>
+    <tr>
+      <td>FirstName: </td>
+      <td><input th:field="*{firstName}" type="text"> </td>
+    </tr>
+    <tr>
+      <td>LastName: </td>
+      <td><input th:field="*{lastName}" type="text"> </td>
+    </tr>
+    <tr>
+      <td>Password: </td>
+      <td><input th:field="*{password}" type="text"> </td>
+    </tr>
+    <tr>
+      <td>Confirm Password: </td>
+      <td><input th:field="*{confirmPassword}" type="text"> </td>
+    </tr>
+    <tr>
+  </table>
+  <input type="submit" value="Register">
+</form>
+</body>
+</html>

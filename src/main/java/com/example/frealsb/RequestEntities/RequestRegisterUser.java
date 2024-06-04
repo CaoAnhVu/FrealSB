@@ -4,6 +4,8 @@ import com.example.frealsb.Const.Constants;
 import com.example.frealsb.Entities.Role;
 import com.example.frealsb.Entities.User;
 import com.example.frealsb.Enums.EnumRole;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +18,24 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestRegisterUser {
-    private String password;
-    private String confirmPassword;
-    private String email;
     private String firstName;
+
     private String lastName;
+
+    @Email()
+    private String email;
+
+    @Size.List({
+            @Size(min = 8, message = "Password too short"),
+            @Size(max = 80, message = "Password too long")
+    })
+    private String confirmPassword;
+
+    @Size.List({
+            @Size(min = 8, message = "Password too short"),
+            @Size(max = 80, message = "Password too long")
+    })
+    private String password;
 
     public User toUser(Role role){
         User user = new User();
