@@ -1,4 +1,5 @@
 package com.example.frealsb.Entities;
+import com.example.frealsb.Enums.EnumRole;
 import com.example.frealsb.Interface.JpaEntities;
 import jakarta.persistence.*;
 import jakarta.persistence.GenerationType;
@@ -10,9 +11,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
@@ -50,6 +49,7 @@ public class User extends JpaEntities {
     // -- End timestamp --
 
     // -- Variable --
+
     @Column(nullable = false)
     private String firstName;
 
@@ -73,6 +73,9 @@ public class User extends JpaEntities {
     private String phone;
 
     @Column(nullable = true)
+    private boolean enabled;
+
+    @Column(nullable = true)
     private String avatarPublicId;
 
     @Column(nullable = true)
@@ -82,19 +85,15 @@ public class User extends JpaEntities {
     @Size(max = 1000, groups = {ProfileInfoValidationGroup.class})
     private String bio;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
-    public boolean hasRole(String role) {
-        role = role.toUpperCase();
-
-        if (!role.startsWith("ROLE_"))
-            role = "ROLE_" + role;
-
-        final String finalRole = role;
-        return getRoles().stream().anyMatch(r -> r.getName().equals(finalRole));
+//  Function
+    public boolean hasRole(EnumRole enumRole) {
+        if (this.role == null) {
+            return false;
+        }
+        return this.role.getRoleName() == enumRole;
     }
 }
