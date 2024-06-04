@@ -44,7 +44,7 @@ Freal is a dynamic application that combines the best of food discovery, travel 
 ### Clone the repository
 
 ```bash
-git clone https://github.com/ngodat213/frealsb.git
+git clone https://github.com/ngodat213/FrealSB.git
 cd frealsb
 ```
 ### Configure Application Properties
